@@ -5,20 +5,27 @@
    ========================================================================== */
 
 body {
-    margin: 0 auto;
-    width: 80%;
 }
 
+.container-fluid {
+    width: 80%;
+    margin: 1em auto;
+}
 
+ul.images {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
 
+.nav-footer ul {
+    list-style: cambodian;
+}
 
+.nav-footer ul li:first-child {
+    margin: 0;
+}
 
-
-
-
-
-
-
-
-
-
+.nav-footer ul li {
+    margin-left: 24px;
+}

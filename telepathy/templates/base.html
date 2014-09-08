@@ -1,95 +1,138 @@
-{% load mezzanine_tags i18n future %}
-<!DOCTYPE html>
-<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
-<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
-<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
-<!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
-    <head>
-        <meta charset="utf-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-        <title>{% block meta_title %}{% endblock %}</title>
-        <meta name="description" content="{% block meta_description %}{% endblock %}">
-        <meta name="viewport" content="{% block meta_viewport %}width=device-width{% endblock %}">
+<!doctype html>
+<html lang="{{ LANGUAGE_CODE }}"{% if LANGUAGE_BIDI %} dir="rtl"{% endif %}>
+{% load pages_tags mezzanine_tags i18n future staticfiles %}
 
-        {% block favicon %}
-        <link rel="shortcut icon" type="image/x-icon" href="data:image/x-icon;base64,AAABAAEAEBACAAAAAACwAAAAFgAAACgAAAAQAAAAIAAAAAEAAQAAAAAAQAAAAAAAAAAAAAAAAgAAAAAAAAAAAAAA////AIwBAACCBwAAAeEAAAHBAAA/+QAAI7kAAELtAADBywAAwXkAAMAJAADAsQAA4OMAAGOjAAB+EgAAYA4AAB/8AAD//wAA//8AAP//AAD//wAA//8AAP//AAD//wAA//8AAP//AAD//wAA//8AAP//AAD//wAA//8AAP//AAD//wAA">
-        {% endblock %}
+<head>
+<meta http-equiv="Content-type" content="text/html; charset=utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="keywords" content="{% block meta_keywords %}{% endblock %}">
+<meta name="description" content="{% block meta_description %}{% endblock %}">
+<title>{% block meta_title %}{% endblock %}{% if settings.SITE_TITLE %} | {{ settings.SITE_TITLE }}{% endif %}</title>
+<link rel="shortcut icon" href="{% static "img/favicon.ico" %}">
 
-        {% block base_styles %}
-        {% compress css %}
-        <link rel="stylesheet" href="{{ STATIC_URL }}css/bootstrap.css">
-        <style>
-            body {
-                padding-top: 60px;
-                padding-bottom: 40px;
-            }
-        </style>
-        <link rel="stylesheet" href="{{ STATIC_URL }}css/bootstrap-responsive.css">
-        <link rel="stylesheet" href="{{ STATIC_URL }}css/main.css">
-        {% endcompress %}
-        {% endblock %}
-        {% block extra_styles %}{% endblock %}
+{% ifinstalled mezzanine.blog %}
+<link rel="alternate" type="application/rss+xml" title="RSS" href="{% url "blog_post_feed" "rss" %}">
+<link rel="alternate" type="application/atom+xml" title="Atom" href="{% url "blog_post_feed" "atom" %}">
+{% endifinstalled %}
 
-        <script src="{{ STATIC_URL }}js/vendor/modernizr-2.6.1-respond-1.1.0.min.js"></script>
-        <script type="text/javascript">
-        var MEDIA_URL = "{{ MEDIA_URL }}";
-        var STATIC_URL = "{{ STATIC_URL }}";
-        </script>
-    </head>
-    <body>
-        {% block body %}
-            <header id="header">
-                {% block header %}
-                <h1>Hello World !</h1>
-                {% endblock header %}
-            </header>
+{% compress css %}
+<link rel="stylesheet" href="{% static "css/bootstrap.css" %}">
+<link rel="stylesheet" href="{% static "css/main.css" %}">
+{% comment %}
+<link rel="stylesheet" href="{% static "css/mezzanine.css" %}">
+<link rel="stylesheet" href="{% static "css/bootstrap-theme.css" %}">
+{% endcomment %}
+{% if LANGUAGE_BIDI %}
+<link rel="stylesheet" href="{% static "css/rtl.css" %}">
+{% endif %}
+{% ifinstalled cartridge.shop %}
+<link rel="stylesheet" href="{% static "css/cartridge.css" %}">
+{% if LANGUAGE_BIDI %}
+<link rel="stylesheet" href="{% static "css/cartridge.rtl.css" %}">
+{% endif %}
+{% endifinstalled %}
+{% block extra_css %}{% endblock %}
+{% endcompress %}
 
-            <div role="main" id="main">
-                {% block main %}
-                <p>Morbi leo risus, porta ac consectetur ac, vestibulum at eros. Donec ullamcorper nulla non metus auctor fringilla. Maecenas sed diam eget risus varius blandit sit amet non magna. Cras justo odio, dapibus ac facilisis in, egestas eget quam. Aenean eu leo quam. Pellentesque ornare sem lacinia quam venenatis vestibulum. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+{% compress js %}
+<script src="{% static "mezzanine/js/"|add:settings.JQUERY_FILENAME %}"></script>
+<script src="{% static "js/bootstrap.js" %}"></script>
+<script src="{% static "js/bootstrap-extras.js" %}"></script>
+{% block extra_js %}{% endblock %}
+{% endcompress %}
 
-                <p>Morbi leo risus, porta ac consectetur ac, vestibulum at eros. Cras mattis consectetur purus sit amet fermentum. Donec sed odio dui. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Vivamus sagittis lacus vel augue laoreet rutrum faucibus dolor auctor. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.</p>
+<!--[if lt IE 9]>
+<script src="{% static "js/html5shiv.js" %}"></script>
+<script src="{% static "js/respond.min.js" %}"></script>
+<![endif]-->
 
-                <p>Vestibulum id ligula porta felis euismod semper. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec ullamcorper nulla non metus auctor fringilla. Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+{% block extra_head %}{% endblock %}
+</head>
 
-                <p>Aenean lacinia bibendum nulla sed consectetur. Etiam porta sem malesuada magna mollis euismod. Integer posuere erat a ante venenatis dapibus posuere velit aliquet. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam quis risus eget urna mollis ornare vel eu leo. Nulla vitae elit libero, a pharetra augue.</p>
-                {% endblock main %}
-            </div>
+<body id="{% block body_id %}body{% endblock %}">
 
-            <footer id="footer">
-            {% block footer %}
-                {% trans "Copyright" %} © {% now "Y" %}. {% trans "All rights reserved." %}
-            {% endblock footer %}
-            </footer>
-        {% endblock %}
+<div class="navbar navbar-default" role="navigation">
+<div class="container-fluid">
+<div class="navbar-header">
+    {% if settings.SITE_TITLE %}<a class="navbar-brand" href="/">{{ settings.SITE_TITLE }}</a>{% endif %}
+    {% if settings.SITE_TAGLINE %} &mdash; <em class="navbar-text visible-lg">{{ settings.SITE_TAGLINE }}</em>{% endif %}
+</div>
 
+{% comment %}
+<ul class="breadcrumb">
+{% spaceless %}
+{% block breadcrumb_menu %}{% page_menu "pages/menus/breadcrumb.html" %}{% endblock %}
+{% endspaceless %}
+</ul>
+{% endcomment %}
 
-        <script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.1/jquery.min.js"></script>
-        <script>window.jQuery || document.write('<script src="{{ STATIC_URL }}js/vendor/jquery-1.8.1.min.js"><\/script>')</script>
+<div class="navbar-collapse collapse">
+    {% search_form "all" %}
+    {% page_menu "pages/menus/dropdown.html" %}
+</div>
+</div>
+</div>
 
-        {% block base_libs %}
-        {% compress js %}
-        <script src="{{ STATIC_URL }}js/vendor/bootstrap.js"></script>
-        {% endcompress %}
-        {% endblock %}
+<div class="container-fluid">
 
-        {% block extra_libs %}
-        {% compress js %}
-        <script src="{{ STATIC_URL }}js/main.js"></script>
-        {% endcompress %}
-        {% endblock %}
+{% nevercache %}
+{% if messages %}
+<div class="messages">
+{% for message in messages %}
+<div class="alert alert-dismissable alert-{{ message.tags }}" data-alert="alert">
+    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+    {{ message }}
+</div>
+{% endfor %}
+</div>
+{% endif %}
+{% endnevercache %}
 
-        {% block editable %}
-        {% editable_loader %}
-        {% endblock %}
+<h1>{% block title %}{% endblock %}</h1>
 
-        {% if settings.GOOGLE_ANALYTICS_ID %}
-        <script>
-            var _gaq=[['_setAccount','{{ settings.GOOGLE_ANALYTICS_ID }}'],['_trackPageview']];
-            (function(d,t){var g=d.createElement(t),s=d.getElementsByTagName(t)[0];
-            g.src=('https:'==location.protocol?'//ssl':'//www')+'.google-analytics.com/ga.js';
-            s.parentNode.insertBefore(g,s)}(document,'script'));
-        </script>
-        {% endif %}
-    </body>
+</div>
+
+<div class="container-fluid">
+
+{% comment %}
+<div class="col-md-2 left">
+    {% block left_panel %}
+    <div class="panel panel-default tree">{% page_menu "pages/menus/tree.html" %}</div>
+    {% endblock %}
+</div>
+{% endcomment %}
+
+<div class="col-md-12 middle">
+    {% block main %}{% endblock %}
+</div>
+
+<div class="col-md-3 right">
+    {% nevercache %}
+    {% include "includes/user_panel.html" %}
+    {% endnevercache %}
+    <div class="panel panel-default">
+    <div class="panel-body">
+    {% block right_panel %}
+    {% ifinstalled mezzanine.twitter %}
+    {% include "twitter/tweets.html" %}
+    {% endifinstalled %}
+    {% endblock %}
+    </div>
+    </div>
+</div>
+
+</div>
+
+<footer>
+<div class="container-fluid">
+{% page_menu "pages/menus/footer.html" %}
+
+<p class="site-info text-center">
+</p>
+</div>
+</footer>
+
+{% include "includes/footer_scripts.html" %}
+
+</body>
 </html>

@@ -1,0 +1,30 @@
+{% extends 'pages/page.html' %}
+
+{% load mezzanine_tags %}
+
+{% block main %}{{ block.super }}
+
+<div class="project">
+{% editable page.project.content %}
+{{ page.project.content|richtext_filters|safe }}
+{% endeditable %}
+</div>
+
+{% for image in page.project.images.all %}
+<ul class="images">
+    <li>
+        <p class="image">
+            <img 
+                src="{{ MEDIA_URL }}{% thumbnail image.file 800 0 %}"
+                alt="{{ image.description }}">
+        </p>
+
+        <p class="description">
+          {{ image.description }}
+        </p>
+    </li>
+</ul>
+
+{% endfor %}
+
+{% endblock %}

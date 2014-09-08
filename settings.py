@@ -127,6 +127,8 @@ DEBUG = False
 SESSION_EXPIRE_AT_BROWSER_CLOSE = True
 
 SITE_ID = 1
+SITE_TITLE = "Telepathy Today"
+SITE_TAGLINE = "Art, research & development"
 
 # If you set this to False, Django will make some optimizations so as not
 # to load the internationalization machinery.
@@ -239,6 +241,8 @@ INSTALLED_APPS = (
     "django.contrib.sites",
     "django.contrib.sitemaps",
     "django.contrib.staticfiles",
+    #"mezzanine_themes.html5_boilerplate",
+    "telepathy",
     "mezzanine.boot",
     "mezzanine.conf",
     "mezzanine.core",
@@ -247,9 +251,9 @@ INSTALLED_APPS = (
     "mezzanine.forms",
     "mezzanine.pages",
     "mezzanine.galleries",
-    "mezzanine.twitter",
+    #"mezzanine.twitter",
     #"mezzanine.accounts",
-    #"mezzanine.mobile",
+    "mezzanine.mobile",
 )
 
 # List of processors used by RequestContext to populate the context.
